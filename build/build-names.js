@@ -29,10 +29,16 @@ const days = () => {
   const out = [];
   times(7, (i) => {
     date.setDate(i + 1);
-    const strings = ['long', 'short'].map((format) => {
-      return toString('weekday', format);
-    });
-    out.push(strings);
+    for (const style of ['long', 'short']) {
+      out.push({
+        name: toString('weekday', style),
+        style: style,
+      });
+    }
+    // const strings = ['long', 'short'].map((format) => {
+    //   return toString('weekday', format);
+    // });
+    // out.push(strings);
   });
   return out;
 };
@@ -61,8 +67,5 @@ fs.writeFile(file, content, (err) => {
   log(chalk.cyanBright(file));
   log(' ');
 
-  const print = false;
-  if (print) {
-    log(chalk.blue(content));
-  }
+  // log(chalk.blue(content));
 });
