@@ -1,0 +1,15 @@
+{
+  "name": "strftime-cli",
+  "version": "1.0.0",
+  "main": "./bin/index.js",
+  "author": "Adrian Cousens",
+  "license": "MIT",
+  "bin": {
+    "str": "bin/index.js"
+  },
+  "dependencies": {
+    "chalk": "^4.1.1",
+    "commander": "^7.2.0",
+    "strftime": "^0.10.0"
+  }
+}
