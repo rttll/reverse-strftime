@@ -11,9 +11,11 @@ describe('Validate function', () => {
 
   describe('String does not contain a valid date', () => {
     it('Returns false', () => {
-      const str = '1/32/2020';
-      const valid = validate(str);
-      expect(valid).toBe(false);
+      const strs = ['1/32/2020', 'Ju 21, 2020'];
+      for (const str of strs) {
+        const valid = validate(str);
+        expect(valid).toBe(false);
+      }
     });
   });
 });

@@ -10,11 +10,12 @@ const toString = (part, format) => {
   return date.toLocaleString('default', { [part]: format });
 };
 
+// '2-digit'
 const months = () => {
   const out = [];
   times(12, (i) => {
     date.setMonth(i);
-    for (const style of ['long', 'short', '2-digit']) {
+    for (const style of ['long', 'short']) {
       out.push({
         name: toString('month', style),
         style: style,

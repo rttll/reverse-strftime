@@ -13,7 +13,7 @@ describe('Month', () => {
     expect(typeof month).toBe('object');
   });
 
-  describe('does not contain valide month name', () => {
+  describe('does not contain valid month name', () => {
     it('returns undefined', () => {
       const str = 'Ju 21, 2020';
       const month = getMonth(str);
@@ -21,7 +21,7 @@ describe('Month', () => {
     });
   });
 
-  describe('contains long month', () => {
+  describe('contains short month', () => {
     it('returns short month data', () => {
       const str = 'Jun 21, 2020';
       const month = getMonth(str);
