@@ -6,15 +6,19 @@ const times = require('../lib/times');
 const log = console.log;
 const date = new Date();
 
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString
+// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat
+
 const toString = (part, format) => {
   return date.toLocaleString('default', { [part]: format });
 };
 
+// '2-digit'
 const months = () => {
   const out = [];
   times(12, (i) => {
     date.setMonth(i);
-    for (const style of ['long', 'short', '2-digit']) {
+    for (const style of ['long', 'short']) {
       out.push({
         name: toString('month', style),
         style: style,
@@ -28,10 +32,16 @@ const days = () => {
   const out = [];
   times(7, (i) => {
     date.setDate(i + 1);
-    const strings = ['long', 'short'].map((format) => {
-      return toString('weekday', format);
-    });
-    out.push(strings);
+    for (const style of ['long', 'short']) {
+      out.push({
+        name: toString('weekday', style),
+        style: style,
+      });
+    }
+    // const strings = ['long', 'short'].map((format) => {
+    //   return toString('weekday', format);
+    // });
+    // out.push(strings);
   });
   return out;
 };
@@ -60,8 +70,5 @@ fs.writeFile(file, content, (err) => {
   log(chalk.cyanBright(file));
   log(' ');
 
-  const print = false;
-  if (print) {
-    log(chalk.blue(content));
-  }
+  // log(chalk.blue(content));
 });
