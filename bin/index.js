@@ -3,6 +3,7 @@
 const { program } = require('commander');
 const parser = require('../lib/parser');
 const chalk = require('chalk');
+const clipboardy = require('clipboardy');
 
 log = console.log;
 
@@ -19,11 +20,11 @@ const options = program.opts();
 const parsed = parser(options);
 
 if (parsed.directives) {
-  // log(parsed.directives);
   const assembled = parsed.directives.join(' ');
-  log('');
   log(assembled);
-  log('');
+  clipboardy.write(assembled).then(() => {
+    log(chalk.gray('Copied to clipboard.'));
+  });
 } else {
   log(chalk.red(parsed.error || 'Unknown error'));
 }
