@@ -5,7 +5,7 @@
   "author": "Adrian Cousens",
   "license": "MIT",
   "bin": {
-    "str": "bin/index.js"
+    "strftime": "bin/index.js"
   },
   "scripts": {
     "test": "jest ./test",
