@@ -20,23 +20,27 @@ const options = program.opts();
 
 const parsed = parser(options);
 
-let assembled;
+let string;
 
 const logTest = () => {
-  const test = strftime(assembled);
-  log(chalk.yellow('test     ➜ ') + test);
+  try {
+    const test = strftime(string);
+    log(chalk.yellow('test     ➜ ') + test);
+  } catch (error) {
+    console.error('Could not test ', error);
+  }
 };
 
 const logOut = (copied) => {
-  let msg = `${chalk.green('strftime ➜')} ${assembled}`;
+  let msg = `${chalk.green('strftime ➜')} ${string}`;
   if (copied) msg += ` ${chalk.gray('copied to clipboard.')}`;
   log(msg);
 };
 
-if (parsed.directives) {
-  assembled = parsed.directives.join(' ');
+if (parsed.string) {
+  string = parsed.string;
   clipboardy
-    .write(assembled)
+    .write(string)
     .then(() => {
       logOut(true);
     })
