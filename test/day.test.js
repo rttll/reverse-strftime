@@ -5,7 +5,7 @@ const log = console.log;
 describe('day(str)', () => {
   describe('Is double digit integer', () => {
     it('should return 2-digit style', () => {
-      const strings = ['04/2021', '12', '31/9999'];
+      const strings = ['04/2021', '12', '01', '31/9999'];
       for (const str of strings) {
         const day = getDay(str);
         expect(day.style).toBe('2-digit');
