@@ -13,6 +13,8 @@ describe('Month', () => {
     expect(typeof month).toBe('object');
   });
 
+  it.todo('strips match from string and returns new string');
+
   describe('does not contain valid month name', () => {
     // TODO: maybe don't do this.
     // Instead use strftime to return results and it iwll be inocrrect there...?
@@ -38,6 +40,10 @@ describe('Month', () => {
       const month = getMonth(str);
       expect(month.style).toBe('long');
     });
+  });
+
+  describe('contains punctuation', () => {
+    it.todo('parsed punctuation');
   });
 
   describe('Contains no month name', () => {

@@ -1,10 +1,11 @@
 const parser = require('../lib/parser/index');
 
-describe('parser', () => {
-  it('should return strftime directives', () => {
-    let userInput = 'June 1, 2020';
-    let date = userInput.split(' ');
-    let parse = parser({ date });
-    expect(parse.directives).toStrictEqual(['%B', '%e', '%Y']);
-  });
+describe('parser()', () => {
+  const data = [['June 1, 2020'], ['04.4.4444']];
+  test.todo('paerser outpout');
+  // test.each(data)('%s', (userInput) => {
+  //   let date = userInput.split(' ');
+  //   let parse = parser({ date });
+  //   expect(parse.directives).toStrictEqual(['%B', '%e', '%Y']);
+  // });
 });
