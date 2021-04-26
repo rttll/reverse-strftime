@@ -9,7 +9,7 @@
   },
   "scripts": {
     "test": "jest ./test",
-    "build:names": "node ./build/build-names.js"
+    "build:names": "node ./build/build-names.js && prettier --write ./lib/names.js"
   },
   "dependencies": {
     "chalk": "^4.1.1",
