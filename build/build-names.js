@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const chalk = require('chalk');
-const times = require('../lib/times');
+const times = require('../lib/util/times');
 
 const log = console.log;
 const date = new Date();
