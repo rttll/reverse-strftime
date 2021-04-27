@@ -1,3 +1,6 @@
 node_modules
 
 yarn-error.log
+
+# npm is just used to link during development.
+package-lock.json

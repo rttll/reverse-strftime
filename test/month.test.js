@@ -1,4 +1,4 @@
-const getMonth = require('../lib/parser/month');
+const getMonth = require('../lib/parsers/month');
 
 describe('Month', () => {
   it('returns month data from names', () => {

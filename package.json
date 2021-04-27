@@ -6,7 +6,10 @@
   "homepage": "https://github.com/thisadrian/reverse-strftime#readme",
   "repository": "github:thisadrian/reverse-strftime",
   "description": "strftime hints on the command line.",
-  "keywords": ["strftime", "cli"],
+  "keywords": [
+    "strftime",
+    "cli"
+  ],
   "license": "MIT",
   "bin": {
     "strftime": "bin/index.js"

@@ -1,4 +1,4 @@
-const year = require('../lib/parser/year');
+const year = require('../lib/parsers/year');
 
 const log = console.log;
 

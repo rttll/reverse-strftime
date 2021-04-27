@@ -1,4 +1,4 @@
-const getWeekday = require('../lib/parser/weekday');
+const getWeekday = require('../lib/parsers/weekday');
 
 describe('getWeekday', () => {
   describe('Full weekday passed in', () => {
