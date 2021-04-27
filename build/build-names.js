@@ -13,7 +13,6 @@ const toString = (part, format) => {
   return date.toLocaleString('default', { [part]: format });
 };
 
-// '2-digit'
 const months = () => {
   const out = [];
   times(12, (i) => {
@@ -38,10 +37,6 @@ const days = () => {
         style: style,
       });
     }
-    // const strings = ['long', 'short'].map((format) => {
-    //   return toString('weekday', format);
-    // });
-    // out.push(strings);
   });
   return out;
 };
@@ -58,7 +53,7 @@ const content = `
   module.exports = {month, weekday}
 `;
 
-const file = path.resolve(__dirname, '../lib/names.js');
+const file = path.resolve(__dirname, '../lib/config/names.js');
 fs.writeFile(file, content, (err) => {
   if (err) {
     console.error(err);

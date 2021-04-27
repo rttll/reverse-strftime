@@ -20,19 +20,19 @@ npm i -g strftime-cli
 
 Use in the console:
 
-`strftime -d <date> `
+`strftime [date string] `
 
 ```bash
-strftime -d Saturday January 1, 2020
+strftime Saturday January 1, 2020
 # ➜ %A %B %e, %Y
 
-strftime -d Sat. Jan. 01, 20
+strftime Sat. Jan. 01, 20
 # ➜ %a. %b. %d %y
 
-strftime -d 4/4/21
+strftime 4/4/21
 # ➜ %m/%e/%y
 
-strftime -d 4-04-2021
+strftime 4-04-2021
 # ➜ %m-%d-%Y
 ```
 
@@ -40,7 +40,7 @@ The date does not have to be accurate, only recognizable.
 You don't have to think about the date! (Just the format)
 
 ```bash
-# New Year's Eve in 1999 was a Friday.
-strftime -d Sunday December 31, 1999
+strftime Sunday December 31, 1999
 # ➜ %A %B %d, %Y
+# New Year's Eve in 1999 was a Friday.
 ```

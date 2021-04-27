@@ -1,5 +1,5 @@
-const directives = require('../lib/directives');
-const getDirective = require('../lib/parser/directive');
+const directives = require('../lib/config/directives');
+const getDirective = require('../lib/parsers/directive');
 
 describe('directive', () => {
   it('should return directive', () => {

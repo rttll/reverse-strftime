@@ -1,4 +1,4 @@
-const validate = require('../lib/parser/validate');
+const validate = require('../lib/parsers/validate');
 
 describe('Validate function', () => {
   describe('String contains a valid date', () => {

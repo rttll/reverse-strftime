@@ -1,55 +1,34 @@
 #!/usr/bin/env node
 
-const { program } = require('commander');
-const parser = require('../lib/parser');
-const chalk = require('chalk');
 const clipboardy = require('clipboardy');
-const strftime = require('strftime');
+const { program } = require('commander');
+const generate = require('../lib/commands/generate');
+const success = require('../lib/loggers/success');
+const test = require('../lib/loggers/strftime-test');
 
-log = console.log;
+const afterGenerate = (string) => {
+  clipboardy.writeSync(string);
+  success(string);
+  test(string);
+};
+
+const version = require('../package.json').version;
+program.version(version, '-v, --version').usage('<command>');
 
 program
-  .description('Get strftime directives from date string.')
-  .option('-d, --date <date...>', 'Add date');
+  .command('generate [date...]', { isDefault: true })
+  .description('generate strftime commands')
+  .action((options) => {
+    if (options.length > 0) {
+      const out = generate(options.join(' '));
+      if (out !== undefined && out.string) {
+        afterGenerate(out.string);
+      }
+    }
+  });
 
-program.parse();
+program.parse(process.argv);
 
-const options = program.opts();
-// TODO output warning bout this
-// const ambiguous = stripped.length > max && stripped[0] !== '0';
-
-let string;
-
-const logTest = () => {
-  try {
-    const test = strftime(string);
-    log(chalk.yellow('test     ➜ ') + test);
-  } catch (error) {
-    console.error('Could not test ', error);
-  }
-};
-
-const logOut = (copied) => {
-  let msg = `${chalk.green('strftime ➜')} ${string}`;
-  if (copied) msg += ` ${chalk.gray('copied to clipboard.')}`;
-  log(msg);
-};
-
-const parsed = parser({ ...options, ...{ date: options.date.join(' ') } });
-
-if (parsed.string) {
-  string = parsed.string;
-  clipboardy
-    .write(string)
-    .then(() => {
-      logOut(true);
-    })
-    .catch(() => {
-      logOut(false);
-    })
-    .finally(() => {
-      logTest();
-    });
-} else {
-  log(chalk.red(parsed.error || 'Unknown error'));
+if (!process.argv.slice(2).length) {
+  program.outputHelp();
 }

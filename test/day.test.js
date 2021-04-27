@@ -1,4 +1,4 @@
-const getDay = require('../lib/parser/day');
+const getDay = require('../lib/parsers/day');
 
 const log = console.log;
 

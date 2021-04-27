@@ -1,19 +1,22 @@
 {
   "name": "reverse-strftime",
-  "version": "1.0.2",
+  "version": "2.0.1",
   "main": "./bin/index.js",
   "author": "Adrian Cousens <a@thisadrian.com>",
   "homepage": "https://github.com/thisadrian/reverse-strftime#readme",
   "repository": "github:thisadrian/reverse-strftime",
   "description": "strftime hints on the command line.",
-  "keywords": ["strftime", "cli"],
+  "keywords": [
+    "strftime",
+    "cli"
+  ],
   "license": "MIT",
   "bin": {
     "strftime": "bin/index.js"
   },
   "scripts": {
     "test": "jest ./test",
-    "build:names": "node ./build/build-names.js && prettier --write ./lib/names.js"
+    "build:names": "node ./build/build-names.js && prettier --write ./lib/config/names.js"
   },
   "dependencies": {
     "chalk": "^4.1.1",
