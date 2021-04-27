@@ -1,7 +1,4 @@
-const parser = require('../lib/parser/index');
-
-// ['Saturday June 01, 2020', '%A %B %d, %Y'], // throws false negative and screws up all these tests
-const data = [['04.4.4444', '%m.%e.%Y']];
+const parser = require('../lib/parser');
 
 describe('parser()', () => {
   describe('With string months', () => {

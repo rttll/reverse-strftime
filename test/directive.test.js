@@ -1,4 +1,4 @@
-const directives = require('../lib/directives');
+const directives = require('../lib/config/directives');
 const getDirective = require('../lib/parser/directive');
 
 describe('directive', () => {
