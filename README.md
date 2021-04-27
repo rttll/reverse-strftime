@@ -10,10 +10,10 @@ Must be installed globally (so it's available from the command line).
 
 ```bash
 # yarn
-yarn global add strftime-cli
+yarn global add reverse-strftime
 
 # or npm
-npm i -g strftime-cli
+npm i -g reverse-strftime
 ```
 
 ## Usage
