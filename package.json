@@ -1,8 +1,11 @@
 {
   "name": "reverse-strftime",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "main": "./bin/index.js",
-  "author": "Adrian Cousens",
+  "author": "Adrian Cousens <a@thisadrian.com>",
+  "homepage": "https://github.com/thisadrian/reverse-strftime#readme",
+  "repository": "github:thisadrian/reverse-strftime",
+  "description": "strftime hints on the command line.",
   "license": "MIT",
   "bin": {
     "strftime": "bin/index.js"
