@@ -19,11 +19,6 @@ describe('Month', () => {
     // TODO: maybe don't do this.
     // Instead use strftime to return results and it iwll be inocrrect there...?
     it.todo('returns undefined');
-    // it('returns undefined', () => {
-    //   const str = 'Ju 21, 2020';
-    //   const month = getMonth(str);
-    //   expect(month).toBe(undefined);
-    // });
   });
 
   describe('contains short month', () => {
@@ -31,6 +26,23 @@ describe('Month', () => {
       const str = 'Jun 21, 2020';
       const month = getMonth(str);
       expect(month.style).toBe('short');
+    });
+
+    describe('with punctuation', () => {
+      it('returns punctuation and spacing', () => {
+        const str = 'Jun. 21, 2020';
+        const month = getMonth(str);
+        expect(month.punctuation).toBe('. ');
+      });
+
+      test.each([
+        ['ignores alphanumeric', 'Jun.21, 2020', '.'],
+        ['ignores extra spacing', 'Jun.  21, 2020', '. '],
+        ['allows grammar mistakes', 'September. 21, 2020', '. '],
+      ])('%s', (memo, input, expected) => {
+        let month = getMonth(input);
+        expect(month.punctuation).toBe(expected);
+      });
     });
   });
 
@@ -40,10 +52,6 @@ describe('Month', () => {
       const month = getMonth(str);
       expect(month.style).toBe('long');
     });
-  });
-
-  describe('contains punctuation', () => {
-    it.todo('parsed punctuation');
   });
 
   describe('Contains no month name', () => {

@@ -18,8 +18,6 @@ const options = program.opts();
 // TODO output warning bout this
 // const ambiguous = stripped.length > max && stripped[0] !== '0';
 
-const parsed = parser(options);
-
 let string;
 
 const logTest = () => {
@@ -36,6 +34,8 @@ const logOut = (copied) => {
   if (copied) msg += ` ${chalk.gray('copied to clipboard.')}`;
   log(msg);
 };
+
+const parsed = parser({ ...options, ...{ date: options.date.join(' ') } });
 
 if (parsed.string) {
   string = parsed.string;
