@@ -1,7 +1,8 @@
-# strftime cli
+# Reverse strftime
 
-Command line utility for strftime.
-Pass in a date, get the corresponding strftime directives.
+Strftime hints on the command line. Pass in a date, get back the directives.
+
+`4/01/1999 => %m/%d/%Y`
 
 ## Installation
 
@@ -16,6 +17,8 @@ npm i -g strftime-cli
 ```
 
 ## Usage
+
+Use in the console:
 
 `strftime -d <date> `
 
