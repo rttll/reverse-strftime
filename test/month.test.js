@@ -49,15 +49,15 @@ describe('Month', () => {
         const str = 'Jun. 21, 2020';
         getMonth(str.split(' '))
           .then((month) => {
-            expect(month.punctuation).toBe('.');
+            expect(month.punctuation).toBe('. ');
           })
           .catch(console.error);
       });
 
       test.each([
         // ['ignores alphanumeric', 'Jun.21, 2020', '.'],
-        ['ignores extra spacing', 'Jun.  21, 2020', '.'],
-        ['allows grammar mistakes', 'September. 21, 2020', '.'],
+        ['ignores extra spacing', 'Jun.  21, 2020', '. '],
+        ['allows grammar mistakes', 'September. 21, 2020', '. '],
       ])('%s', (memo, input, expected) => {
         getMonth(input.split(' '))
           .then((month) => {
@@ -65,6 +65,17 @@ describe('Month', () => {
           })
           .catch(console.error);
       });
+    });
+  });
+
+  describe('No month option', () => {
+    it('returns null', () => {
+      let input = 'Monday';
+      getMonth(input.split(' '), true)
+        .then((month) => {
+          expect(month).toBe(null);
+        })
+        .catch(console.error);
     });
   });
 

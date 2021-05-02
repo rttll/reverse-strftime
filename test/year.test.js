@@ -34,6 +34,17 @@ describe('getYear(options)', () => {
     });
   });
 
+  describe('No year', () => {
+    it('returns null', () => {
+      const options = 'Mon. June 1';
+      getYear(options.split(' '), true)
+        .then((year) => {
+          expect(year).toBe(null);
+        })
+        .catch(console.error);
+    });
+  });
+
   // describe('has surrounding punctuation', () => {
   //   const data = [
   //     ['.99.', '99', '2-digit'],

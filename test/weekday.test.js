@@ -25,9 +25,9 @@ describe('getWeekday', () => {
 
   describe('with punctuation', () => {
     test.each([
-      ['With space', 'Saturday June 1', ''],
-      ['With space (short name)', 'Sat Jun', ''],
-      ['With . (short name)', 'Sat. March', '.'],
+      ['With space', 'Saturday June 1', ' '],
+      ['With space (short name)', 'Sat Jun', ' '],
+      ['With . (short name)', 'Sat. March', '. '],
     ])('%s', (memo, input, expected) => {
       getWeekday(input.split(' '))
         .then((weekday) => {
