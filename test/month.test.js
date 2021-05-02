@@ -1,72 +1,103 @@
 const getMonth = require('../lib/parsers/month');
 
 describe('Month', () => {
-  it('returns month data from names', () => {
-    const str = 'June 23';
-    const month = getMonth(str);
-    expect(typeof month).toBe('object');
+  describe('Options include long month name', () => {
+    it('month.directive is %B', () => {
+      const options = ['January', '1,', '2021', '5:40', 'pm'];
+      getMonth(options, (weekday = false))
+        .then((month) => {
+          expect(month.directive).toBe('%B');
+        })
+        .catch(console.error);
+    });
   });
 
-  it('should ignore leading day names', () => {
-    const str = 'Tue June 23';
-    const month = getMonth(str);
-    expect(typeof month).toBe('object');
+  describe('Options include weekday', () => {
+    it('should select correct date part', () => {
+      const options = 'Monday January 1'.split(' ');
+      getMonth(options, (weekday = true))
+        .then((month) => {
+          expect(month.directive).toBe('%B');
+        })
+        .catch(console.error);
+    });
+
+    describe('Options include weekday but weekday param is incorrect', () => {
+      it('should select correct date part', () => {
+        const options = 'Monday January 1'.split(' ');
+        getMonth(options, (weekday = false))
+          .then((month) => {
+            expect(month).toBe(undefined);
+          })
+          .catch(console.error);
+      });
+    });
   });
 
-  it.todo('strips match from string and returns new string');
-
-  describe('does not contain valid month name', () => {
-    // TODO: maybe don't do this.
-    // Instead use strftime to return results and it iwll be inocrrect there...?
-    it.todo('returns undefined');
-  });
-
-  describe('contains short month', () => {
-    it('returns short month data', () => {
-      const str = 'Jun 21, 2020';
-      const month = getMonth(str);
-      expect(month.style).toBe('short');
+  describe('Options contains short month', () => {
+    it('month.directive should be', () => {
+      const options = 'Jan 1'.split(' ');
+      getMonth(options, (weekday = false))
+        .then((month) => {
+          expect(month.directive).toBe('%b');
+        })
+        .catch(console.error);
     });
 
     describe('with punctuation', () => {
       it('returns punctuation and spacing', () => {
         const str = 'Jun. 21, 2020';
-        const month = getMonth(str);
-        expect(month.punctuation).toBe('. ');
+        getMonth(str.split(' '))
+          .then((month) => {
+            expect(month.punctuation).toBe('. ');
+          })
+          .catch(console.error);
       });
 
       test.each([
-        ['ignores alphanumeric', 'Jun.21, 2020', '.'],
+        // ['ignores alphanumeric', 'Jun.21, 2020', '.'],
         ['ignores extra spacing', 'Jun.  21, 2020', '. '],
         ['allows grammar mistakes', 'September. 21, 2020', '. '],
       ])('%s', (memo, input, expected) => {
-        let month = getMonth(input);
-        expect(month.punctuation).toBe(expected);
+        getMonth(input.split(' '))
+          .then((month) => {
+            expect(month.punctuation).toBe(expected);
+          })
+          .catch(console.error);
       });
     });
   });
 
-  describe('contains long month', () => {
-    it('returns long month data', () => {
-      const str = 'December 31 4040';
-      const month = getMonth(str);
-      expect(month.style).toBe('long');
+  describe('No month option', () => {
+    it('returns null', () => {
+      let input = 'Monday';
+      getMonth(input.split(' '), true)
+        .then((month) => {
+          expect(month).toBe(null);
+        })
+        .catch(console.error);
     });
   });
 
-  describe('Contains no month name', () => {
-    describe('contains integer', () => {
-      it('returns 2-digit data', () => {
-        const strings = ['Saturday 02/24/1982', '12'];
-        for (const str of strings) {
-          const month = getMonth(str);
-          expect(month.style).toBe('2-digit');
-        }
-      });
-    });
+  // describe('does not contain valid month name', () => {
+  //   // TODO: maybe don't do this.
+  //   // Instead use strftime to return results and it iwll be inocrrect there...?
+  //   it.todo('returns undefined');
+  // });
 
-    describe('contains 1 digit integer', () => {
-      it.todo('throws error?');
-    });
-  });
+  // describe('Contains no month name', () => {
+  //   describe('contains integer', () => {
+  //     it('returns 2-digit data', () => {
+  //       const strings = ['Saturday 02/24/1982', '12'];
+  //       for (const str of strings) {
+  //         const month = getMonth(str);
+  //         expect(month.style).toBe('2-digit');
+  //       }
+  //     });
+  //   });
+
+  //   describe('contains 1 digit integer', () => {
+  //     it.todo('throws error?');
+  //   });
+  // });
 });

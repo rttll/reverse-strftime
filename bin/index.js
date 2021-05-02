@@ -20,10 +20,15 @@ program
   .description('generate strftime commands')
   .action((options) => {
     if (options.length > 0) {
-      const out = generate(options.join(' '));
-      if (out !== undefined && out.string) {
-        afterGenerate(out.string);
-      }
+      generate(options)
+        .then((resp) => {
+          if (resp !== undefined && resp.string) {
+            afterGenerate(resp.string);
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     }
   });
 
