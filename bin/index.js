@@ -20,7 +20,7 @@ program
   .description('generate strftime commands')
   .action((options) => {
     if (options.length > 0) {
-      generate(options.join(' '))
+      generate(options)
         .then((resp) => {
           if (resp !== undefined && resp.string) {
             afterGenerate(resp.string);
