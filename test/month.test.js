@@ -119,5 +119,15 @@ describe('Month', () => {
         }
       });
     });
+
+    describe('langs', () => {
+      it('is Spanish', async () => {
+        try {
+          let input = 'junio 1, 2020';
+          let month = await getMonth(input.split(' '), false);
+          expect(month.directive).toBe('%m');
+        } catch (error) {}
+      });
+    });
   });
 });

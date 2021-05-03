@@ -55,17 +55,20 @@ const getDays = (locale) => {
   return out;
 };
 
-const names = {};
+const names = [];
 
 for (let data of langs) {
-  names[data.description] = {};
-  names[data.description]['month'] = getMonths(data.tag);
-  names[data.description]['weekday'] = getDays(data.tag);
+  let name = {
+    description: data.description,
+    month: getMonths(data.tag),
+    weekday: getDays(data.tag),
+  };
+  names.push(name);
 }
 
 const content = `
   const names = ${JSON.stringify(names)};
-  module.exports = {names}
+  module.exports = names
 `;
 
 const file = path.resolve(__dirname, '../lib/config/names.js');
