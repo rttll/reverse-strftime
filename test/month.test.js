@@ -85,19 +85,39 @@ describe('Month', () => {
   //   it.todo('returns undefined');
   // });
 
-  // describe('Contains no month name', () => {
-  //   describe('contains integer', () => {
-  //     it('returns 2-digit data', () => {
-  //       const strings = ['Saturday 02/24/1982', '12'];
-  //       for (const str of strings) {
-  //         const month = getMonth(str);
-  //         expect(month.style).toBe('2-digit');
-  //       }
-  //     });
-  //   });
-
-  //   describe('contains 1 digit integer', () => {
-  //     it.todo('throws error?');
-  //   });
-  // });
+  describe('Contains integer month', () => {
+    describe('Has weekday', () => {
+      it('directive is %m', async () => {
+        try {
+          let input = 'Sat. 1';
+          let month = await getMonth(input.split(' '), true);
+          expect(month.directive).toBe('%m');
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    });
+    describe('Has slashes', () => {
+      it('directive is %m', async () => {
+        try {
+          let input = '04/4/4444';
+          let month = await getMonth(input.split(' '), true);
+          expect(month.directive).toBe('%m');
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    });
+    describe('Has dashes', () => {
+      it('directive is %m', async () => {
+        try {
+          let input = '04-4-4444';
+          let month = await getMonth(input.split(' '), true);
+          expect(month.directive).toBe('%m');
+        } catch (error) {
+          console.error(error);
+        }
+      });
+    });
+  });
 });

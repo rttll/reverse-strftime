@@ -54,6 +54,18 @@ describe('day(str)', () => {
           })
           .catch(console.error);
       });
+      describe('with dashes', () => {
+        it('directive should be %d', async () => {
+          let input = '6-06-66';
+          try {
+            let day = await getDay(input.split(' '), false);
+            expect(day.directive).toBe('%d');
+            expect(day.punctuation).toBe('-');
+          } catch (error) {
+            console.error(error);
+          }
+        });
+      });
     });
   });
 
@@ -83,24 +95,5 @@ describe('day(str)', () => {
 
   describe('is 4-digit integer', () => {
     it.todo('should return null');
-  });
-
-  // describe('is empty string', () => {
-  //   it('should return null', () => {
-  //     const day = getDay('');
-  //     expect(day).toBe(null);
-  //   });
-  // });
-
-  describe('has trailing time format', () => {
-    // 12pm, 1:20AM
-    // Jan 1 5pm
-    it.todo('should return null');
-  });
-
-  describe('Has trailing ordinal', () => {
-    // 1st, th, nd
-    // or any alpha: 1ad, 23xyz
-    it.todo('should ignore and warn');
   });
 });

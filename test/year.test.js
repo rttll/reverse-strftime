@@ -7,6 +7,7 @@ describe('getYear(options)', () => {
     const data = [
       ['Jan 1 20', 'Jan 1 20', '2-digit', '%y'],
       ['1/1/19', '1/1/19', '2-digit', '%y'],
+      ['1-1-19', '1-1-19', '2-digit', '%y'],
     ];
     test.each(data)('year(%s)', (memo, options, style, directive) => {
       getYear(options.split(' '))
@@ -19,18 +20,17 @@ describe('getYear(options)', () => {
   });
 
   describe('Is 4-digit integer', () => {
-    describe('Is double digit integer', () => {
-      const data = [
-        ['Jan 23, 4040', 'Jan 23, 4040', '%Y'],
-        ['1/1/4040', '1/1/4040', '%Y'],
-      ];
-      test.each(data)('year(%s)', (memo, options, directive) => {
-        getYear(options.split(' '))
-          .then((year) => {
-            expect(year.directive).toBe(directive);
-          })
-          .catch(console.error);
-      });
+    const data = [
+      ['Jan 23, 4040', 'Jan 23, 4040', '%Y'],
+      ['1/1/4040', '1/1/4040', '%Y'],
+      ['1-1-4040', '1-1-4040', '%Y'],
+    ];
+    test.each(data)('year(%s)', (memo, options, directive) => {
+      getYear(options.split(' '))
+        .then((year) => {
+          expect(year.directive).toBe(directive);
+        })
+        .catch(console.error);
     });
   });
 
