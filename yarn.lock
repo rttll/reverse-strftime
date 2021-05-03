@@ -970,6 +970,16 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
+cldr-dates-modern@^39.0.0:
+  version "39.0.0"
+  resolved "https://registry.yarnpkg.com/cldr-dates-modern/-/cldr-dates-modern-39.0.0.tgz#9953e01d832909a0ba55f39a6fca6cf43138512a"
+  integrity sha512-G3RYbbDEFJ8bUOrXWL9MD6W6jDafm3WgbtSGLpcS7lJQuc5voSy6flkNOS5NN0SxZXnTH4hRIFRdeS3lduanWg==
+
+cldr-numbers-modern@^39.0.0:
+  version "39.0.0"
+  resolved "https://registry.yarnpkg.com/cldr-numbers-modern/-/cldr-numbers-modern-39.0.0.tgz#75a5edc607a47c22a05ad9f2fa0e691bf3b6a7df"
+  integrity sha512-Na9PUy5idpVryB+vJYuh8wJR2OzXEOFagVb3leuD38iyY8aNuADg9A+g1qM3uqab3Vm67ZL+IwavBRIdNgDvJQ==
+
 clipboardy@^2.3.0:
   version "2.3.0"
   resolved "https://registry.yarnpkg.com/clipboardy/-/clipboardy-2.3.0.tgz#3c2903650c68e46a91b388985bc2774287dba290"

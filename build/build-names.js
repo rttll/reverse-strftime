@@ -1,25 +1,39 @@
 const fs = require('fs');
 const path = require('path');
-const chalk = require('chalk');
 const times = require('../lib/util/times');
-
-const log = console.log;
-const date = new Date();
 
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/toLocaleString
 // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DateTimeFormat/DateTimeFormat
 
-const toString = (part, format) => {
-  return date.toLocaleString('default', { [part]: format });
+const langs = [
+  { description: 'English', tag: 'en' },
+  { description: 'Chinese', tag: 'zh' },
+  { description: 'Russian', tag: 'ru' },
+  { description: 'German', tag: 'de' },
+  { description: 'Romanian', tag: 'ro' },
+  { description: 'Polish', tag: 'pl' },
+  { description: 'Hungarian', tag: 'hu' },
+  { description: 'Slovak', tag: 'sk' },
+  { description: 'Spanish', tag: 'es' },
+  { description: 'Italian', tag: 'it' },
+  { description: 'French', tag: 'fr' },
+];
+
+const getName = (part, locale, format) => {
+  try {
+    let string = date.toLocaleString(locale, { [part]: format });
+    return string;
+  } catch (error) {}
 };
 
-const months = () => {
+const date = new Date();
+const getMonths = (locale) => {
   const out = [];
   times(12, (i) => {
     date.setMonth(i);
     for (const style of ['long', 'short']) {
       out.push({
-        name: toString('month', style),
+        name: getName('month', locale, style),
         style: style,
       });
     }
@@ -27,13 +41,13 @@ const months = () => {
   return out;
 };
 
-const days = () => {
+const getDays = (locale) => {
   const out = [];
   times(7, (i) => {
     date.setDate(i + 1);
     for (const style of ['long', 'short']) {
       out.push({
-        name: toString('weekday', style),
+        name: getName('weekday', locale, style),
         style: style,
       });
     }
@@ -41,16 +55,17 @@ const days = () => {
   return out;
 };
 
-log('');
-log(chalk.yellow('Generating date property names...'));
+const names = {};
 
-let m = months();
-let d = days();
+for (let data of langs) {
+  names[data.description] = {};
+  names[data.description]['month'] = getMonths(data.tag);
+  names[data.description]['weekday'] = getDays(data.tag);
+}
 
 const content = `
-  const month = ${JSON.stringify(m)};
-  const weekday = ${JSON.stringify(d)};
-  module.exports = {month, weekday}
+  const names = ${JSON.stringify(names)};
+  module.exports = {names}
 `;
 
 const file = path.resolve(__dirname, '../lib/config/names.js');
@@ -59,11 +74,4 @@ fs.writeFile(file, content, (err) => {
     console.error(err);
     return;
   }
-
-  log(' ');
-  log(chalk.green('Generated names. File output to:'));
-  log(chalk.cyanBright(file));
-  log(' ');
-
-  // log(chalk.blue(content));
 });
