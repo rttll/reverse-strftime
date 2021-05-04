@@ -13,14 +13,18 @@ const afterGenerate = (string) => {
 };
 
 const version = require('../package.json').version;
-program.version(version, '-v, --version').usage('<command>');
+program.version(version, '-v, --version').usage('<command> [options]');
 
 program
   .command('generate [date...]', { isDefault: true })
   .description('generate strftime commands')
-  .action((options) => {
-    if (options.length > 0) {
-      generate(options)
+  .option('-a, --auto', 'generate a default')
+  .option('-l, --locale [locale]', 'specify the locale')
+  .option('-s, --short', 'use short formats')
+  .option('--no-time', "don't include time when autogenerating")
+  .action((date, options) => {
+    if (date.length > 0 || options.auto) {
+      generate(date, options)
         .then((resp) => {
           if (resp !== undefined && resp.string) {
             afterGenerate(resp.string);
