@@ -19,7 +19,7 @@ program
   .command('generate [date...]', { isDefault: true })
   .description('generate strftime commands')
   .option('-a, --auto', 'generate a default')
-  .option('-l, --locale [locale]', 'specify the locale')
+  .option('-l, --locale <locale>', 'specify the locale', 'en-US')
   .option('-s, --short', 'use short formats')
   .option('--no-time', "don't include time when autogenerating")
   .action((date, options) => {
