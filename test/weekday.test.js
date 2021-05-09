@@ -1,42 +1,52 @@
-const getWeekday = require('../lib/parsers/weekday');
+const { weekday, getWeekday } = require('../lib/parsers/weekday');
 
-describe('getWeekday', () => {
-  describe('Options include ull weekday', () => {
-    it("style should be 'long' ", () => {
-      getWeekday('Saturday Jun 1'.split(' '))
-        .then((weekday) => {
-          expect(weekday.style).toBe('long');
-          expect(weekday.name).toBe('Saturday');
-        })
-        .catch(console.error);
+describe('weekday()', () => {
+  describe('Options include full weekday', () => {
+    let options = [
+      { type: 'alpha', value: 'Saturday' },
+      { type: 'literal', value: ' ' },
+      { type: 'alpha', value: 'May' },
+      { type: 'literal', value: ' ' },
+      { type: 'int', value: '1' },
+    ];
+    it('style should be long', async () => {
+      let results = await weekday(options);
+      expect(results[0].style).toBe('long');
     });
   });
 
   describe('Abbreviated weekday passed in', () => {
-    it("style should be 'short' ", () => {
-      getWeekday('Sat 4/4'.split(' '))
-        .then((weekday) => {
-          expect(weekday.style).toBe('short');
-          expect(weekday.name).toBe('Sat');
-        })
-        .catch(console.error);
+    let options = [
+      { type: 'alpha', value: 'Sat' },
+      { type: 'literal', value: '. ' },
+      { type: 'alpha', value: 'May' },
+      { type: 'literal', value: ' ' },
+      { type: 'int', value: '1' },
+    ];
+    it('style should be short', async () => {
+      let results = await weekday(options);
+      expect(results[0].style).toBe('short');
+    });
+  });
+});
+
+describe('getWeekday()', () => {
+  describe('Option is long weekday', () => {
+    let options = [{ type: 'alpha', value: 'Saturday' }];
+    test('style should be long', async () => {
+      let results = await weekday(options);
+      expect(results[0].style).toBe('long');
     });
   });
 
-  describe('with punctuation', () => {
-    test.each([
-      ['With space', 'Saturday June 1', ' '],
-      ['With space (short name)', 'Sat Jun', ' '],
-      ['With . (short name)', 'Sat. March', '. '],
-    ])('%s', (memo, input, expected) => {
-      getWeekday(input.split(' '))
-        .then((weekday) => {
-          expect(weekday.punctuation).toBe(expected);
-        })
-        .catch(console.error);
+  describe('Option is short weekday', () => {
+    let options = [
+      { type: 'alpha', value: 'Sat' },
+      { type: 'literal', value: '. ' },
+    ];
+    test('style should be long', async () => {
+      let results = await weekday(options);
+      expect(results[0].style).toBe('short');
     });
   });
-
-  it.todo('these tests should pass w/o month passed in');
-  // e.g. Saturday. Works from commandline tho
 });
