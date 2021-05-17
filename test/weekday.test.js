@@ -10,8 +10,8 @@ describe('weekday()', () => {
       { type: 'int', value: '1' },
     ];
     it('style should be long', async () => {
-      let results = await weekday(options);
-      expect(results[0].style).toBe('long');
+      let result = await weekday(options);
+      expect(result.style).toBe('long');
     });
   });
 
@@ -24,8 +24,8 @@ describe('weekday()', () => {
       { type: 'int', value: '1' },
     ];
     it('style should be short', async () => {
-      let results = await weekday(options);
-      expect(results[0].style).toBe('short');
+      let result = await weekday(options);
+      expect(result.style).toBe('short');
     });
   });
 });
@@ -34,8 +34,8 @@ describe('getWeekday()', () => {
   describe('Option is long weekday', () => {
     let options = [{ type: 'alpha', value: 'Saturday' }];
     test('style should be long', async () => {
-      let results = await weekday(options);
-      expect(results[0].style).toBe('long');
+      let result = await weekday(options);
+      expect(result.style).toBe('long');
     });
   });
 
@@ -45,8 +45,8 @@ describe('getWeekday()', () => {
       { type: 'literal', value: '. ' },
     ];
     test('style should be long', async () => {
-      let results = await weekday(options);
-      expect(results[0].style).toBe('short');
+      let result = await weekday(options);
+      expect(result.style).toBe('short');
     });
   });
 });

@@ -1,6 +1,6 @@
 const getValues = require('../lib/util/values');
 const setSequence = require('../lib/util/sequence');
-const { day, getDay } = require('../lib/parsers/day');
+const { hour } = require('../lib/parsers/hour');
 
 const log = console.log;
 

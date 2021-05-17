@@ -1,3 +1,5 @@
+const getValues = require('../lib/util/values');
+const setSequence = require('../lib/util/sequence');
 const {
   month,
   getNameMatch,
@@ -5,60 +7,50 @@ const {
 } = require('../lib/parsers/month');
 
 describe('month()', () => {
-  describe('Options include alpha month name', () => {
-    let options;
-    beforeAll(() => {
-      options = [
-        { type: 'alpha', value: 'Mon' },
-        { type: 'literal', value: '. ' },
-        { type: 'alpha', value: 'June' },
-        { type: 'literal', value: ' ' },
-        { type: 'int', value: '1' },
-        { type: 'literal', value: ', ' },
-        { type: 'int', value: '2020' },
-      ];
+  describe('No matches', () => {
+    it('Returns null', async () => {
+      const sequence = setSequence({ locale: 'en-US' });
+      let values = getValues('Monday'.split(' '));
+      let match = await month(values, sequence);
+      expect(match).toBe(null);
     });
+  });
 
-    it('should ignore 4-digit years', async () => {
-      let results = await month(options);
-      expect(results.length).toBe(2);
-    });
-
-    describe('Options include long month name', () => {
-      it('results include long style', async () => {
-        let results = await month(options);
-        expect(results.filter((obj) => obj.style === 'long').length).toBe(1);
+  describe('with alphabetic names', () => {
+    describe('en-GB', () => {
+      it('Returns month', async () => {
+        let sequence = setSequence({ locale: 'en-GB' }),
+          values = getValues('Mon. 1 June, 3030'.split(' ')),
+          match = await month(values, sequence);
+        expect(match.name).toBe('June');
       });
     });
 
-    describe('Options include 2 digit integer', () => {
-      it('results include 2-digit style', async () => {
-        let results = await month(options);
-        expect(results.filter((obj) => obj.style === '2-digit').length).toBe(1);
-      });
-    });
-    describe('Options include 2-digit year', () => {
-      it('should return all possible matches, including year', async () => {
-        options.pop();
-        options.push({ type: 'int', value: '44' });
-        let results = await month(options);
-        expect(results.length).toBe(3);
+    describe('Locale is en-US', () => {
+      it('Returns month', async () => {
+        let sequence = setSequence({ locale: 'en-US' }),
+          values = getValues('Mon. Sep. 1 3030'.split(' ')),
+          match = await month(values, sequence);
+        expect(match.name).toBe('Sep');
       });
     });
   });
 
-  describe('All values are 2-digit integer', () => {
-    let options = [
-      { type: 'alpha', value: 'Sat.' },
-      { type: 'int', value: '6' },
-      { type: 'literal', value: '/' },
-      { type: 'int', value: '1' },
-      { type: 'literal', value: '/' },
-      { type: 'int', value: '55' },
-    ];
-    it('should return a possible match for all integers', async () => {
-      let results = await month(options);
-      expect(results.length).toBe(3);
+  describe('Numeric values', () => {
+    describe.each([
+      ['en-GB', 'Mon. 14/1/20 3:12:23 PM', '1'],
+      ['en-US', 'Sun. 1/23/2222 4pm', '1'],
+      ['et-EE', 'Sun. 31/12/2222 4pm', '12'],
+      ['ko-KP', 'Sun. 2021. 5. 17.', '5'],
+      ['bs', 'Sunday 17.5.2021.', '5'],
+      ['mn', 'Sunday 2021.05.17', '05'],
+    ])('%s', (locale, dateString, expected) => {
+      test(`returns ${expected}`, async () => {
+        let sequence = setSequence({ locale: locale }),
+          values = getValues(dateString.split(' ')),
+          match = await month(values, sequence);
+        expect(match.name).toBe(expected);
+      });
     });
   });
 });
