@@ -47,17 +47,28 @@ strftime 4/4/4444 4:40:45 am
 
 ### \<locale\>
 
-Specify the locale to use when parsing input.  
-Required for generating non-local formats.
+Reverse-strftime uses the system locale by default, and matches date format conventions against your input.
+(e.g. You're in London => day precedes month).
+
+Use `<locale>` option to indicate if your input is for a date format that differs from the system's default locale.
 
 `strftime [datestring] -l --locale`
 
 ```bash
-# Default locale => en-US (M/D/YYYY)
+# System locale => en-US (M/D/YYYY)
 # Let's generate a string for en-GB (D/MM/YYYY)
 
 strftime Mon. 31/12/1999 -l en-GB
 # ➜ %a. %d/%m/%Y
+
+
+# Already in London? You don't have to use `-l` to for the same output:
+
+# System locale => en-GB (D/MM/YYYY)
+
+strftime Mon. 31/12/1999
+# ➜ %a. %d/%m/%Y
+
 ```
 
 ### <auto\>
