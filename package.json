@@ -1,6 +1,6 @@
 {
   "name": "reverse-strftime",
-  "version": "2.2.0",
+  "version": "2.2.2",
   "main": "./bin/index.js",
   "author": "Adrian Cousens <a@thisadrian.com>",
   "homepage": "https://github.com/thisadrian/reverse-strftime#readme",
