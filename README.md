@@ -1,6 +1,6 @@
 # Reverse strftime
 
-Strftime hints on the command line. Pass in a date, get back the directives.
+Strftime directives on the command line. Pass in a date, get back the directives.
 
 <img src="doc/console.jpg" width="500" height="auto">
 
@@ -18,9 +18,9 @@ npm i -g reverse-strftime
 
 ## Usage
 
-Use in the console:
+In the console, input your desired date format:
 
-`strftime [date string] `
+`strftime [date string] (options)`
 
 ```bash
 strftime Saturday January 1, 2020
@@ -43,14 +43,91 @@ strftime 4/4/4444 4:40:45 am
 
 ```
 
-The date does not have to be accurate, only recognizable.  
-You don't have to think about the date! (Just the format)
+## Options
+
+### \<locale\>
+
+Specify the locale to use when parsing input.  
+Required for generating non-local formats.
+
+`strftime [datestring] -l --locale`
 
 ```bash
-# New Year's Eve in 1999 was a Friday,
+# Default locale => en-US (M/D/YYYY)
+# Let's generate a string for en-GB (D/MM/YYYY)
+
+strftime Mon. 31/12/1999 -l en-GB
+# ➜ %a. %d/%m/%Y
+```
+
+### <auto\>
+
+Auto generate strftime string.
+Optionally pass in a locale (see above) to generate a string in non-local format.
+
+`strftime -a --auto`
+
+```bash
+# locale: en-US
+
+strftime -a
+# ➜ %A, %B %d, %Y at %H:%M:%S %p
+# ➜ Monday, May 17, 2021 at 23:34:26 PM
+
+# Let's autogenerate for another locale
+
+strftime -a -l en-GB
+# ➜ %A, %d %B %Y at %H:%M:%S
+```
+
+### \<auto>\<short>
+
+When autogenerating, prefer short-format.
+
+`strftime -a -s --short`
+
+```bash
+strftime -a -s
+# ➜ %m/%d/%y, %H:%M %p
+```
+
+## Usage Notes
+
+### Option condensing
+
+As usual, you can combine commands
+
+```bash
+strftime -asl en-GB
+# ➜ %d/%m/%Y, %H:%M
+```
+
+### Format-focused
+
+The date does not have to be accurate, only recognizable. i.e. you don't have to think about the date (just the format).
+
+```bash
+# New Year's Eve in 1999 was actually a Friday,
 # but this still prints the correct strftime:
 
 strftime Sunday December 31, 1999
 # ➜ %A %B %d, %Y
 
+```
+
+### Full dates / order
+
+reverse-strftime mostly expects full dates, or at least partial dates in order.
+
+```bash
+# This is fine
+
+strftime June 1
+# ➜ %B %e
+
+# But it'll bonk if time is added and
+# year is skipped:
+
+strftime June 1 4pm
+# ➜ %B %e %y%P
 ```
