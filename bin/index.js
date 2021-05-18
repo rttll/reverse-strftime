@@ -21,10 +21,17 @@ program.version(version, '-v, --version').usage('<command> [options]');
 program
   .command('generate [date...]', { isDefault: true })
   .description('generate strftime commands')
-  .option('-a, --auto', 'generate a default')
-  .option('-l, --locale <locale>', 'specify the locale', defaultLocale)
-  .option('-s, --short', 'use short formats')
-  .option('--no-time', "don't include time when autogenerating")
+  .option(
+    '-l, --locale <locale>',
+    'Specify the locale to use when parsing input. Uses your locale by default',
+    defaultLocale
+  )
+  .option(
+    '-a, --auto',
+    'Auto generate strftime string. Uses default date format for the locale.'
+  )
+  .option('-s, --short', 'When autogenerating, use short formats.')
+  .option('--no-time', 'When autogenerating, exclude time directives.')
   .action((date, options) => {
     if (date.length > 0 || options.auto) {
       generate(date, options)
