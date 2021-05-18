@@ -31,7 +31,6 @@ program
     'Auto generate strftime string. Uses default date format for the locale.'
   )
   .option('-s, --short', 'When autogenerating, use short formats.')
-  .option('--no-time', 'When autogenerating, exclude time directives.')
   .action((date, options) => {
     if (date.length > 0 || options.auto) {
       generate(date, options)
