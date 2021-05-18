@@ -1,122 +1,55 @@
-const getMonth = require('../lib/parsers/month');
+const getValues = require('../lib/util/values');
+const setSequence = require('../lib/util/sequence');
+const {
+  month,
+  getNameMatch,
+  getNumericMatch,
+} = require('../lib/parsers/month');
 
-describe('Month', () => {
-  describe('Options include long month name', () => {
-    it('month.directive is %B', () => {
-      const options = ['January', '1,', '2021', '5:40', 'pm'];
-      getMonth(options, (weekday = false))
-        .then((month) => {
-          expect(month.directive).toBe('%B');
-        })
-        .catch(console.error);
+describe('month()', () => {
+  describe('No matches', () => {
+    it('Returns null', async () => {
+      const sequence = setSequence({ locale: 'en-US' });
+      let values = getValues('Monday'.split(' '));
+      let match = await month(values, sequence);
+      expect(match).toBe(null);
     });
   });
 
-  describe('Options include weekday', () => {
-    it('should select correct date part', () => {
-      const options = 'Monday January 1'.split(' ');
-      getMonth(options, (weekday = true))
-        .then((month) => {
-          expect(month.directive).toBe('%B');
-        })
-        .catch(console.error);
-    });
-
-    describe('Options include weekday but weekday param is incorrect', () => {
-      it('should select correct date part', () => {
-        const options = 'Monday January 1'.split(' ');
-        getMonth(options, (weekday = false))
-          .then((month) => {
-            expect(month).toBe(undefined);
-          })
-          .catch(console.error);
+  describe('with alphabetic names', () => {
+    describe('en-GB', () => {
+      it('Returns month', async () => {
+        let sequence = setSequence({ locale: 'en-GB' }),
+          values = getValues('Mon. 1 June, 3030'.split(' ')),
+          match = await month(values, sequence);
+        expect(match.name).toBe('June');
       });
     });
-  });
 
-  describe('Options contains short month', () => {
-    it('month.directive should be', () => {
-      const options = 'Jan 1'.split(' ');
-      getMonth(options, (weekday = false))
-        .then((month) => {
-          expect(month.directive).toBe('%b');
-        })
-        .catch(console.error);
-    });
-
-    describe('with punctuation', () => {
-      it('returns punctuation and spacing', () => {
-        const str = 'Jun. 21, 2020';
-        getMonth(str.split(' '))
-          .then((month) => {
-            expect(month.punctuation).toBe('. ');
-          })
-          .catch(console.error);
-      });
-
-      test.each([
-        // ['ignores alphanumeric', 'Jun.21, 2020', '.'],
-        ['ignores extra spacing', 'Jun.  21, 2020', '. '],
-        ['allows grammar mistakes', 'September. 21, 2020', '. '],
-      ])('%s', (memo, input, expected) => {
-        getMonth(input.split(' '))
-          .then((month) => {
-            expect(month.punctuation).toBe(expected);
-          })
-          .catch(console.error);
+    describe('Locale is en-US', () => {
+      it('Returns month', async () => {
+        let sequence = setSequence({ locale: 'en-US' }),
+          values = getValues('Mon. Sep. 1 3030'.split(' ')),
+          match = await month(values, sequence);
+        expect(match.name).toBe('Sep');
       });
     });
   });
 
-  describe('No month option', () => {
-    it('returns null', () => {
-      let input = 'Monday';
-      getMonth(input.split(' '), true)
-        .then((month) => {
-          expect(month).toBe(null);
-        })
-        .catch(console.error);
-    });
-  });
-
-  // describe('does not contain valid month name', () => {
-  //   // TODO: maybe don't do this.
-  //   // Instead use strftime to return results and it iwll be inocrrect there...?
-  //   it.todo('returns undefined');
-  // });
-
-  describe('Contains integer month', () => {
-    describe('Has weekday', () => {
-      it('directive is %m', async () => {
-        try {
-          let input = 'Sat. 1';
-          let month = await getMonth(input.split(' '), true);
-          expect(month.directive).toBe('%m');
-        } catch (error) {
-          console.error(error);
-        }
-      });
-    });
-    describe('Has slashes', () => {
-      it('directive is %m', async () => {
-        try {
-          let input = '04/4/4444';
-          let month = await getMonth(input.split(' '), true);
-          expect(month.directive).toBe('%m');
-        } catch (error) {
-          console.error(error);
-        }
-      });
-    });
-    describe('Has dashes', () => {
-      it('directive is %m', async () => {
-        try {
-          let input = '04-4-4444';
-          let month = await getMonth(input.split(' '), true);
-          expect(month.directive).toBe('%m');
-        } catch (error) {
-          console.error(error);
-        }
+  describe('Numeric values', () => {
+    describe.each([
+      ['en-GB', 'Mon. 14/1/20 3:12:23 PM', '1'],
+      ['en-US', 'Sun. 1/23/2222 4pm', '1'],
+      ['et-EE', 'Sun. 31/12/2222 4pm', '12'],
+      ['ko-KP', 'Sun. 2021. 5. 17.', '5'],
+      ['bs', 'Sunday 17.5.2021.', '5'],
+      ['mn', 'Sunday 2021.05.17', '05'],
+    ])('%s', (locale, dateString, expected) => {
+      test(`returns ${expected}`, async () => {
+        let sequence = setSequence({ locale: locale }),
+          values = getValues(dateString.split(' ')),
+          match = await month(values, sequence);
+        expect(match.name).toBe(expected);
       });
     });
   });
