@@ -5,6 +5,9 @@ const { program } = require('commander');
 const generate = require('../lib/commands/generate');
 const success = require('../lib/loggers/success');
 const test = require('../lib/loggers/strftime-test');
+const locale = require('../lib/util/locale');
+
+const defaultLocale = locale() || 'en-US';
 
 const afterGenerate = (string) => {
   clipboardy.writeSync(string);
@@ -19,7 +22,7 @@ program
   .command('generate [date...]', { isDefault: true })
   .description('generate strftime commands')
   .option('-a, --auto', 'generate a default')
-  .option('-l, --locale <locale>', 'specify the locale', 'en-US')
+  .option('-l, --locale <locale>', 'specify the locale', defaultLocale)
   .option('-s, --short', 'use short formats')
   .option('--no-time', "don't include time when autogenerating")
   .action((date, options) => {
