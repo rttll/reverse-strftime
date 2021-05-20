@@ -3,6 +3,7 @@
 const clipboardy = require('clipboardy');
 const { program } = require('commander');
 const generate = require('../lib/commands/generate');
+const printReference = require('../lib/commands/reference');
 const success = require('../lib/loggers/success');
 const test = require('../lib/loggers/strftime-test');
 const locale = require('../lib/util/locale');
@@ -43,6 +44,14 @@ program
           console.log(err);
         });
     }
+  });
+
+program
+  .command('reference')
+  .alias('ref')
+  .description('print strftime reference')
+  .action(() => {
+    printReference();
   });
 
 program.parse(process.argv);
