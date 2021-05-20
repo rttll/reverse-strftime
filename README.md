@@ -1,6 +1,6 @@
 # Reverse strftime
 
-Strftime directives on the command line. Pass in a date, get back the directives.
+Strftime directives on the command line. Pass in a date, get back a strftime string.
 
 <img src="doc/console.jpg" width="500" height="auto">
 
@@ -40,41 +40,45 @@ strftime Mon. January 1, 2044 14:40:45
 
 strftime 4/4/4444 4:40:45 am
 # ➜ %m/%e/%Y %l:%M:%S %P
+```
 
+### Locale
+
+By default, the input string is parsed using the system locale. See the `<locale>` and `<auto>` options below for using locales other than your own.
+
+```bash
+# System locale: es-MX
+strftime Thursday, 20 May 2021 01:20:12
+# ➜ %A, %d %B %Y %H:%M:%S
 ```
 
 ## Options
 
 ### \<locale\>
 
-Reverse-strftime uses the system locale by default, and matches date format conventions against your input.
-(e.g. You're in London => day precedes month).
+**(Requires Node > v12)**
 
-Use `<locale>` option to indicate if your input is for a date format that differs from the system's default locale.
+Indicate if your input order differs from the system locale's. e.g. You're in the US, but are putting the day first.
 
 `strftime [datestring] -l --locale`
 
 ```bash
 # System locale => en-US (M/D/YYYY)
-# Let's generate a string for en-GB (D/MM/YYYY)
 
+# Let's generate a string for en-GB (D/MM/YYYY)
 strftime Mon. 31/12/1999 -l en-GB
 # ➜ %a. %d/%m/%Y
 
-
-# Already in London? You don't have to use `-l` to for the same output:
-
-# System locale => en-GB (D/MM/YYYY)
-
+# Same input without padding a locale will give incorrect output.
 strftime Mon. 31/12/1999
-# ➜ %a. %d/%m/%Y
+# ➜ %a. %m/%d/%Y (Nope)
 
 ```
 
 ### <auto\>
 
 Auto generate strftime string.
-Optionally pass in a locale (see above) to generate a string in non-local format.
+Optionally pass in a locale (see above) to generate for another locale.
 
 `strftime -a --auto`
 
@@ -100,6 +104,29 @@ When autogenerating, prefer short-format.
 ```bash
 strftime -a -s
 # ➜ %m/%d/%y, %H:%M %p
+```
+
+## Reference
+
+Use the reference command to log all the strftime keys.
+
+`strftime reference|ref`
+
+```bash
+strftime ref
+
+# Logs:
+
+# ➜ Weekday
+# %A Sunday
+# %a Sun
+#
+# ➜ Month
+# %B August
+# %b Aug
+# %m 08
+
+...
 ```
 
 ## Usage Notes
